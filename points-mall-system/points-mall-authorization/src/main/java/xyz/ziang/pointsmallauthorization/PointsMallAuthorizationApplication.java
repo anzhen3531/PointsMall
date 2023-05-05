@@ -1,11 +1,12 @@
-package xyz.ziang.pointsmallservice;
+package xyz.ziang.pointsmallauthorization;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PointsMallServiceApplication {
+public class PointsMallAuthorizationApplication {
     public static void main(String[] args) {
-        SpringApplication.run(PointsMallServiceApplication.class, args);
+        SpringApplication.run(PointsMallAuthorizationApplication.class, args);
     }
+
 }

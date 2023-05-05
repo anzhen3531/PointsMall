@@ -13,12 +13,15 @@
         <module>points-mall-core</module>
         <module>points-mall-common</module>
         <module>points-mall-service</module>
+        <module>points-mall-authorization</module>
     </modules>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <alibaba.version>2022.0.0.0-RC2</alibaba.version>
+        <spring.version>6.0.8</spring.version>
+        <mysql-version>8.0.28</mysql-version>
     </properties>
 
     <dependencyManagement>
@@ -58,6 +61,18 @@
                 <groupId>xyz.ziang</groupId>
                 <artifactId>points-mall-core</artifactId>
                 <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>5.8.12</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
