@@ -1,9 +1,15 @@
 server:
   port: 9000
   # 采用的默认数据源
-spring:
-  datasource:
-    url: jdbc:mysql://192.168.0.107:3306/points_mall?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    username: anzhen
-    password: Anzhen3531.
-    driver-class-name: com.mysql.cj.jdbc.Driver
+#spring:
+#  datasource:
+#    url: jdbc:mysql://192.168.0.104:3306/points_mall?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+#    username: anzhen
+#    password: Anzhen3531.
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+
+# github登录配置
+github:
+  client-id: 5a2e2e97b229a7572874
+  client-secret: cfc36b972505c06819b50db5cde6e524a025da80
+  redirect-uri: http://localhost:5173/login

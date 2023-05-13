@@ -10,10 +10,10 @@
 
     <packaging>pom</packaging>
     <modules>
-        <module>points-mall-core</module>
         <module>points-mall-common</module>
         <module>points-mall-service</module>
         <module>points-mall-authorization</module>
+        <module>points-mall-sysmanager</module>
     </modules>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -73,6 +73,28 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>5.8.12</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>3.5.3.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>3.5.3.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-annotation</artifactId>
+                <version>3.5.3.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.26</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,4 +1,4 @@
-package xyz.ziang.constant;
+package xyz.ziang.common.constant;
 
 
 /**
@@ -12,7 +12,7 @@ public interface SecurityConstant {
     /**
      * token在签发的时候使用的发行域名
      */
-    String ISSUER = "https://localhost:9000";
+    String ISSUER = "https://127.0.0.1:9000";
     /**
      * 登录页的跳转路径
      */
