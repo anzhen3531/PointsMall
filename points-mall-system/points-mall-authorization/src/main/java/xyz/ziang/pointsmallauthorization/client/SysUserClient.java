@@ -5,7 +5,4 @@ import org.springframework.cloud.openfeign.FeignClient;
 
 @FeignClient(url = "")
 public class SysUserClient {
-
-
-
 }

@@ -1,14 +1,12 @@
 package xyz.ziang.pointsmallservice.controller.base;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+
 import org.springframework.web.bind.annotation.*;
 
 import xyz.ziang.common.entity.MpBaseEntity;
-import xyz.ziang.common.result.ApiResult;
 import xyz.ziang.common.service.MpCrudBaseService;
-import xyz.ziang.entity.SysRole;
-
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 public class BaseController<T extends MpCrudBaseService<R>, R extends MpBaseEntity> {
     private final T service;
@@ -27,8 +25,8 @@ public class BaseController<T extends MpCrudBaseService<R>, R extends MpBaseEnti
      * @return
      */
     @GetMapping("/{id}")
-    public ApiResult<R> findById(@PathVariable("id") Long id) {
-        return ApiResult.success(service.findOne(id).orElse(null));
+    public R findById(@PathVariable("id") Long id) {
+        return service.findOne(id).orElse(null);
     }
 
     /**
@@ -38,8 +36,8 @@ public class BaseController<T extends MpCrudBaseService<R>, R extends MpBaseEnti
      * @return
      */
     @PostMapping()
-    public ApiResult<R> create(@RequestBody R r) {
-        return ApiResult.success(service.create(r));
+    public R create(@RequestBody R r) {
+        return service.create(r);
     }
 
     /**
@@ -49,8 +47,8 @@ public class BaseController<T extends MpCrudBaseService<R>, R extends MpBaseEnti
      * @return
      */
     @PutMapping("/{id}")
-    public ApiResult<R> update(@RequestBody R r) {
-        return ApiResult.success(service.updateAllProperties(r));
+    public R update(@RequestBody R r) {
+        return service.updateAllProperties(r);
     }
 
     /**
@@ -60,8 +58,7 @@ public class BaseController<T extends MpCrudBaseService<R>, R extends MpBaseEnti
      * @return
      */
     @DeleteMapping("/{id}")
-    public ApiResult<SysRole> delete(@PathVariable("id") Long id) {
+    public void delete(@PathVariable("id") Long id) {
         service.achieve(id);
-        return ApiResult.success();
     }
 }

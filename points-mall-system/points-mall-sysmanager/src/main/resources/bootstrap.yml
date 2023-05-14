@@ -1,0 +1,20 @@
+server:
+  port: 8989
+spring:
+  # 服务名称
+  application:
+    name: points-mall-sys-manager
+  cloud:
+    nacos:
+      #服务发现地址
+      discovery:
+        server-addr: 192.168.0.104:8848
+        namespace: 970c9068-f529-42fc-8bed-1cc15e962b2c
+      #服务配置地址
+      config:
+        server-addr: 192.168.0.104:8848
+        namespace: 970c9068-f529-42fc-8bed-1cc15e962b2c
+# 配置日志级别
+logging:
+  level:
+    web: debug

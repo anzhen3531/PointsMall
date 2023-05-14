@@ -1,15 +1,15 @@
-package xyz.ziang.pointsmallauthorization;
+package xyz.ziang;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@EnableFeignClients({"xyz.ziang.pointsmallauthorization.client"})
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-public class PointsMallAuthorizationApplication {
+@EnableFeignClients("xyz.ziang.client")
+public class PointsMallSysManagerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(PointsMallAuthorizationApplication.class, args);
+        SpringApplication.run(PointsMallSysManagerApplication.class, args);
     }
+
 }
