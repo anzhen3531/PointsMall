@@ -4,9 +4,7 @@ import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import cn.hutool.core.util.ObjectUtil;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -31,6 +29,7 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import org.springframework.util.CollectionUtils;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 import xyz.ziang.entity.SysUser;
 import xyz.ziang.pointsmallauthorization.util.OAuth2AuthenticationProviderUtils;
@@ -212,8 +211,6 @@ public class OAuth2GithubAuthenticationProvider implements AuthenticationProvide
         UserDetails userDetails = userDetailService.loadUserByUsername(sysUser.getUsername());
         result = UsernamePasswordAuthenticationToken.authenticated(userDetails,
             githubAuthenticationToken.getCredentials(), userDetails.getAuthorities());
-        // additionalAuthenticationChecks(userDetails, result);
-        // 判断用户时间是否以及过期
         result.setDetails(githubAuthenticationToken.getDetails());
         return result;
     }
@@ -228,21 +225,4 @@ public class OAuth2GithubAuthenticationProvider implements AuthenticationProvide
     public boolean supports(Class<?> authentication) {
         return OAuth2GithubAuthenticationToken.class.isAssignableFrom(authentication);
     }
-
-    protected void additionalAuthenticationChecks(UserDetails userDetails,
-        UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
-        if (authentication.getCredentials() == null) {
-            log.debug("Failed to authenticate since no credentials provided");
-            throw new BadCredentialsException(
-                "AbstractUserDetailsAuthenticationProvider.badCredentials Bad credentials");
-        } else {
-            String presentedPassword = authentication.getCredentials().toString();
-            if (!this.passwordEncoder.matches(presentedPassword, userDetails.getPassword())) {
-                log.debug("Failed to authenticate since password does not match stored value");
-                throw new BadCredentialsException(
-                    "AbstractUserDetailsAuthenticationProvider.badCredentials Bad credentials");
-            }
-        }
-    }
-
 }

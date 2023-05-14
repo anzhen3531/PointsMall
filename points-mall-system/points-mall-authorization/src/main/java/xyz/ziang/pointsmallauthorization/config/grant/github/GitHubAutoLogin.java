@@ -2,6 +2,7 @@ package xyz.ziang.pointsmallauthorization.config.grant.github;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.http.HttpEntity;
@@ -12,9 +13,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import cn.hutool.core.util.ObjectUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import xyz.ziang.entity.Person;
 import xyz.ziang.entity.SysUser;
+import xyz.ziang.pointsmallauthorization.client.PersonClient;
+import xyz.ziang.pointsmallauthorization.client.SysUserClient;
 
 @Component
 @Slf4j
@@ -27,6 +32,10 @@ public class GitHubAutoLogin {
     GithubProperties githubProperties;
     @Resource
     PasswordEncoder passwordEncoder;
+    @Resource
+    PersonClient personClient;
+    @Resource
+    SysUserClient sysUserClient;
 
     /**
      * github登录
@@ -54,10 +63,17 @@ public class GitHubAutoLogin {
         // 创建
         Map body = exchange.getBody();
         if (body != null) {
-            System.out.println("body = " + body);
-            SysUser sysUser = new SysUser();
-            sysUser.setUsername((String)body.get("login"));
-            sysUser.setPassword(passwordEncoder.encode("123456"));
+            SysUser sysUser = sysUserClient.findByUserName((String)body.get("login"));
+            if (ObjectUtil.isNull(sysUser)) {
+                // 创建这个用户和人员信息
+                Person person = new Person();
+                person.setPersonName((String)body.get("name"));
+                person = personClient.create(person);
+                sysUser.setPersonId(person.getId());
+                // 随机生成密码
+                sysUser.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
+                sysUserClient.create(sysUser);
+            }
             return sysUser;
         }
         return null;

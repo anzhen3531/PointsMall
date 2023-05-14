@@ -3,16 +3,16 @@ package xyz.ziang.entity;
 import xyz.ziang.common.entity.MpBaseEntity;
 
 public class SysUser extends MpBaseEntity {
-    private String person_id;
+    private Long personId;
     private String username;
     private String password;
 
-    public String getPerson_id() {
-        return person_id;
+    public Long getPersonId() {
+        return personId;
     }
 
-    public void setPerson_id(String person_id) {
-        this.person_id = person_id;
+    public void setPersonId(Long personId) {
+        this.personId = personId;
     }
 
     public String getUsername() {

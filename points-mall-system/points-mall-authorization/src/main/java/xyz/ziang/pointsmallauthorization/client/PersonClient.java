@@ -1,13 +1,12 @@
-package xyz.ziang.client;
+package xyz.ziang.pointsmallauthorization.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-import xyz.ziang.entity.SysUser;
+import xyz.ziang.entity.Person;
 
-@FeignClient(name = "points-mall-service", path = "/user")
-public interface SysUserClient {
-
+@FeignClient(name = "points-mall-service",path = "/person")
+public interface PersonClient {
     /**
      * 通过id查询账号
      *
@@ -15,33 +14,32 @@ public interface SysUserClient {
      * @return
      */
     @GetMapping("/{id}")
-    SysUser findById(@PathVariable("id") Long id);
+    Person findById(@PathVariable("id") Long id);
 
     /**
      * 创建账号
      *
-     * @param user
+     * @param r
      * @return
      */
     @PostMapping("")
-    SysUser create(@RequestBody SysUser user);
+    Person create(@RequestBody Person r);
 
     /**
      * 修改账号
      *
-     * @param user
+     * @param r
      * @return
      */
     @PutMapping("")
-    SysUser update(@RequestBody SysUser user);
+    Person update(@RequestBody Person r);
 
     /**
      * 删除账号
      *
-     * @param id id
+     * @param id
      * @return
      */
     @DeleteMapping("/{id}")
-    SysUser delete(@PathVariable("id") Long id);
-
+    Person delete(@PathVariable("id") Long id);
 }

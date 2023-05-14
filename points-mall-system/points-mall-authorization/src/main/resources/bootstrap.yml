@@ -1,9 +1,10 @@
 server:
-  port: 8989
+  port: 9000
+  # 采用的默认数据源
+
 spring:
-  # 服务名称
   application:
-    name: points-mall-sys-manager
+    name: points-mall-authorization
   cloud:
     nacos:
       #服务发现地址
@@ -14,10 +15,10 @@ spring:
       config:
         server-addr: 192.168.0.104:8848
         namespace: 970c9068-f529-42fc-8bed-1cc15e962b2c
-# 配置日志级别
-logging:
-  level:
-    web: debug
 
-feign:
-  client-name: points-mall-service
+
+# github登录配置
+github:
+  client-id: 5a2e2e97b229a7572874
+  client-secret: cfc36b972505c06819b50db5cde6e524a025da80
+  redirect-uri: http://localhost:5173/login
