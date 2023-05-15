@@ -5,4 +5,6 @@ import org.springframework.context.annotation.Configuration;
 
 @MapperScan("xyz.ziang.pointsmallservice.mapper")
 @Configuration
-public class MyBatisPlusConfig {}
+public class MyBatisPlusConfig {
+    // 配置
+}

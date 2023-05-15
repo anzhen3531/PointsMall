@@ -21,4 +21,6 @@ public class PersonController extends BaseController<PersonService, Person> {
     public PersonController(PersonService service) {
         super(service);
     }
+
+
 }
