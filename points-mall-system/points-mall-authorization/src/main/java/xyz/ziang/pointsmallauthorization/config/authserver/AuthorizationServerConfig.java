@@ -6,11 +6,11 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
-import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
@@ -42,10 +42,14 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 
 import cn.hutool.core.util.ObjectUtil;
+import jakarta.annotation.Resource;
 import xyz.ziang.common.constant.SecurityConstant;
 import xyz.ziang.pointsmallauthorization.config.grant.github.GitHubAutoLogin;
 import xyz.ziang.pointsmallauthorization.config.grant.github.OAuth2GithubAuthenticationConverter;
 import xyz.ziang.pointsmallauthorization.config.grant.github.OAuth2GithubAuthenticationProvider;
+import xyz.ziang.pointsmallauthorization.config.hanlder.AuthExceptionHandler;
+import xyz.ziang.pointsmallauthorization.config.hanlder.OAuth2LogoutHandler;
+import xyz.ziang.pointsmallauthorization.config.hanlder.OAuth2LogoutSuccessHandler;
 import xyz.ziang.pointsmallauthorization.service.userdetail.SysUserDetailServiceImpl;
 
 /**
@@ -78,15 +82,53 @@ public class AuthorizationServerConfig {
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http,
         UserDetailsService sysUserDetailsService) throws Exception {
-        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
+        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer =
+                new OAuth2AuthorizationServerConfigurer();
         http.apply(authorizationServerConfigurer);
-        authorizationServerConfigurer.tokenEndpoint(tokenEndpoint -> tokenEndpoint.accessTokenRequestConverters(
-            authenticationConverters -> authenticationConverters.add(new OAuth2GithubAuthenticationConverter())));
-        DefaultSecurityFilterChain chain = http.securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
-            .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated()).csrf(CsrfConfigurer::disable)
-            .build();
+
+        authorizationServerConfigurer.tokenEndpoint(tokenEndpoint ->
+                tokenEndpoint.accessTokenRequestConverters(
+            authenticationConverters ->
+                    authenticationConverters.add(new OAuth2GithubAuthenticationConverter())));
+
+        DefaultSecurityFilterChain chain = http.securityMatcher(
+                authorizationServerConfigurer.getEndpointsMatcher())
+               .authorizeHttpRequests(authorize ->
+                    authorize.anyRequest().authenticated()) .exceptionHandling()
+                //未登录时请求访问接口所需要跳转的自定义路径，即没有登录时将直接跳转到此 url中
+                .authenticationEntryPoint(new AuthExceptionHandler())
+                .and()
+                .csrf(CsrfConfigurer::disable).build();
         addingAdditionalAuthenticationProvider(http, gitHubAutoLogin, passwordEncoder, sysUserDetailsService);
         return chain;
+    }
+
+    /**
+     * A Spring Security filter chain for authentication.
+     *
+     * @param http the httpSecurity
+     * @return the securityFilterChain
+     * @throws Exception the exception
+     */
+    @Bean
+    @Order(2)
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http,
+                                                          OAuth2LogoutHandler logoutHandler)
+            throws Exception {
+        http
+                .authorizeHttpRequests((authorize) -> authorize
+                        .requestMatchers("/actuator/**", "/v3/api-docs/**",
+                                "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .anyRequest().authenticated()
+                )
+                // Form login handles the redirect to the login page from the
+                // authorization server filter chain
+                .formLogin(Customizer.withDefaults())
+                .logout(logout -> logout
+                        .addLogoutHandler(logoutHandler)
+                        .logoutSuccessHandler(new OAuth2LogoutSuccessHandler())
+                ).csrf().disable();
+        return http.build();
     }
 
     /**

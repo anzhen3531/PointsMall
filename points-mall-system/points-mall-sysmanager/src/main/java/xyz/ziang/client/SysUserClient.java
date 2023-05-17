@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import xyz.ziang.entity.SysUser;
 
-@FeignClient(name = "points-mall-service", path = "/user")
+@FeignClient(name = "points-mall-service", path = "/user",contextId = "manager-user-client")
 public interface SysUserClient {
 
     /**

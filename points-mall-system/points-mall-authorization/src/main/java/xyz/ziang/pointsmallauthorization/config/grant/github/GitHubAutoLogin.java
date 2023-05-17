@@ -63,6 +63,7 @@ public class GitHubAutoLogin {
         // 创建
         Map body = exchange.getBody();
         if (body != null) {
+            // 通过github登录名称查询是否之前进行过登录
             SysUser sysUser = sysUserClient.findByUserName((String)body.get("login"));
             if (ObjectUtil.isNull(sysUser)) {
                 // 创建这个用户和人员信息

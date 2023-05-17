@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import xyz.ziang.entity.Person;
 
-@FeignClient(name = "points-mall-service",path = "/person")
+@FeignClient(name = "points-mall-service",path = "/person",contextId = "manager-person-client")
 public interface PersonClient {
     /**
      * 通过id查询账号

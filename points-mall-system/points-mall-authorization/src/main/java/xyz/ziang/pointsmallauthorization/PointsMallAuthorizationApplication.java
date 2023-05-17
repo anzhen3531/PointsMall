@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @EnableFeignClients({"xyz.ziang.pointsmallauthorization.client"})
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@SpringBootApplication
 public class PointsMallAuthorizationApplication {
     public static void main(String[] args) {
         SpringApplication.run(PointsMallAuthorizationApplication.class, args);

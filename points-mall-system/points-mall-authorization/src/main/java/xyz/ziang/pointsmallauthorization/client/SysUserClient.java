@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import xyz.ziang.entity.SysUser;
 
-@FeignClient(name = "points-mall-service", path = "/user")
+@FeignClient(name = "points-mall-service", path = "/user",contextId = "auth-user-client")
 public interface SysUserClient {
 
     /**
@@ -24,7 +24,7 @@ public interface SysUserClient {
      * @return
      */
     @GetMapping("/find/username")
-    SysUser findByUserName(@RequestParam String username);
+    SysUser findByUserName(@RequestParam("username") String username);
 
     /**
      * 创建账号

@@ -8,15 +8,15 @@ spring:
     nacos:
       #服务发现地址
       discovery:
-        server-addr: 192.168.0.104:8848
+        server-addr: 192.168.0.107:8848
         namespace: 970c9068-f529-42fc-8bed-1cc15e962b2c
       #服务配置地址
       config:
-        server-addr: 192.168.0.104:8848
+        server-addr: 192.168.0.107:8848
         namespace: 970c9068-f529-42fc-8bed-1cc15e962b2c
   # 数据源配置
   datasource:
-    url: jdbc:mysql://192.168.0.104:3306/points_mall?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://192.168.0.107:3306/points_mall?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: anzhen
     password: Anzhen3531.
     driver-class-name: com.mysql.cj.jdbc.Driver

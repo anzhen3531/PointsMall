@@ -1,22 +1,22 @@
 package xyz.ziang.pointsmallauthorization.service.userdetail;
 
-import cn.hutool.core.util.ObjectUtil;
+import java.util.List;
+
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import cn.hutool.core.util.ObjectUtil;
 import jakarta.annotation.Resource;
 import xyz.ziang.entity.SysUser;
-import xyz.ziang.pointsmallauthorization.service.SysUserService;
-
-import java.util.List;
+import xyz.ziang.pointsmallauthorization.client.SysUserClient;
 
 @Service
 public class SysUserDetailServiceImpl implements UserDetailsService {
     @Resource
-    private SysUserService service;
+    private SysUserClient client;
 
     /**
      * 实际业务没有编写
@@ -27,7 +27,7 @@ public class SysUserDetailServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SysUser sysUser = service.findByUserByName(username);
+        SysUser sysUser = client.findByUserName(username);
         if (ObjectUtil.isNull(sysUser)) {
             throw new UsernameNotFoundException("账号或者密码不存在");
         }
